@@ -5,6 +5,12 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 generator = pipeline("text-generation", model=model_name, tokenizer=tokenizer)
 
 
+from transformers import pipeline, AutoTokenizer
+
+model_name = "unsloth/gemma-2-9b-it-bnb-4bit"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+generator = pipeline("text-generation", model=model_name, tokenizer=tokenizer)
+
 def get_output(input):
   # 프롬프트
   post_prompt = """Please rate the following blog post from 1 to 10 on each of the following category: Topic "Relevance", "Value Provision", "Storytelling", "Expertise","Conciseness","Paragraph Structure","Attention-Grabbing Opening", "Call-to-Action (CTA)","Balance of Professionalism and Personal Touch" and "Hashtag Usage"
@@ -12,6 +18,9 @@ def get_output(input):
   
   ### Input:
   {}
+
+  ### Instruction:
+  "Evaluate and Comment the blog post below and only provide the response."
   
   ### Response example:
   
@@ -22,18 +31,12 @@ def get_output(input):
   
   ### Response:
   {}"""
-
-  # 모델과 토크나이저 로드
-  model_name = "google/gemma-2-9b-it"
-  tokenizer = AutoTokenizer.from_pretrained(model_name)
-  generator = pipeline("text-generation", model=model_name, tokenizer=tokenizer)
   
   # 프롬프트 생성 및 모델 실행
-  instruction = "Evaluate and Comment the blog post below and only provide the response."
-  input_text = input
-  prompt = post_prompt.format(instruction=instruction, input=input_text)
-  
-  outputs = generator(prompt)
+  outputs = generator(post_prompt.format(
+        post_input, # input
+        ""# output - leave this blank for generation!
+  ))
   generated_text = outputs[0]["generated_text"]
   response_start = generated_text[0].find("### Response:")
   if response_start != -1:
@@ -41,6 +44,7 @@ def get_output(input):
 
   # 결과 출력
   return ouput
+
 
 
   # 페이지를 Wide 모드로 설정
@@ -98,8 +102,8 @@ def get_output(input):
       else:
           # 파일에서 JSON 데이터 로드
           # 평가 결과를 처리하는 함수 호출
-          results = process_evaluation_results(data)
-          result s= get_output(post_input)
+          result= get_output(post_input)
+        
           # 평균 점수 계산
           user_score_average = np.mean(results["scores"])
           dummy_average = 5.8  # 더미 사용자 평균 점수

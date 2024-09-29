@@ -1,10 +1,14 @@
 import streamlit as st
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from huggingface_hub import login
+
+login(token='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')
 
 @st.cache_resource
 def load_model():
-  tokenizer = AutoTokenizer.from_pretrained("unsloth/gemma-2-9b-it-bnb-4bit",use_auth_token='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')
-  model = AutoModelForCausalLM.from_pretrained("unsloth/gemma-2-9b-it-bnb-4bit",use_auth_token='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')
+  model_name = "unsloth/gemma-2-9b-it-bnb-4bit"
+  tokenizer = AutoTokenizer.from_pretrained(model_name)
+  generator = pipeline("text-generation", model=model_name, tokenizer=tokenizer)
   return tokenizer, model
 
 tokenizer, model = load_model()

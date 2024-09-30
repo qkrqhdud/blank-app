@@ -49,3 +49,5 @@ urllib3==2.2.3
 zipp==3.20.2
 transformers
 unsloth
+TensorFlow
+PyTorch

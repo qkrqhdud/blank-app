@@ -50,7 +50,9 @@ urllib3==2.2.3
 zipp==3.20.2
 transformers==4.45.1
 tensorflow==2.17.0
-torch torchvision torchaudio
+torch 
+torchvision 
+torchaudio
 flash-attn==2.6.3
 unsloth
 

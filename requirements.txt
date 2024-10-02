@@ -50,6 +50,7 @@ zipp==3.20.2
 transformers==4.45.1
 tensorflow==2.17.0
 torch-scatter
+torch
 flash-attn==2.6.3
 unsloth
 
